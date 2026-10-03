@@ -1,4 +1,4 @@
-# Lab 14 - Web API and GenAI Python Apps
+# LLMs APIs Python Apps
 
 This repository contains standalone Python applications:
 
