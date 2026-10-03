@@ -11,3 +11,6 @@ s### 03-10-2026 17:22
 ### 03-10-2026 18:25
 - **Prompt**: yes, fix those
 
+### 03-10-2026 18:35
+- **Prompt**: what would it take to add to school-ai.py a function that could be called to query the list of models provided by the server? do not change the code yet, just tell me
+

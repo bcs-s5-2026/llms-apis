@@ -16,3 +16,13 @@
 - **Hook Version**: 1.02
 - **Date**: 03-10-2026 18:25
 - **Prompt**: yes, fix those
+- **CoPilot Mode**: Agent
+- **CoPilot Model**: not reported by runtime
+- **Socratic Mode**: ON
+- **Changes Made**: school-ai.py: removed the stray module-level sys.exit(1) (moved into the except block, so success now exits 0 and errors exit 1); create() now passes stream=stream_mode so SCHOOL_STREAM actually works; added a non-streaming branch that reads completion.choices[0].message.content; moved the "No tokens received." check outside the for loop so it no longer fires on the first role-only chunk; header comment updated to mention the non-streamed mode. README.md: School Hosted Models section now documents SCHOOL_STREAM token streaming vs single response. .env.example: added a comment explaining SCHOOL_STREAM. Verified all three paths (stream on, stream off, missing key) with a temporary fake OpenAI client via runpy - correct outputs and exit codes 0/0/1 - then deleted the test harness; py_compile passes. No commit made.
+- **Context and Reasons for Changes**: Student follow-up "yes, fix those" confirming the two issues raised last turn (stray sys.exit(1), SCHOOL_STREAM having no effect). The non-streaming branch reads message.content instead of iterating chunks, because OpenAI chat completions with stream=False return a single ChatCompletion object that is not iterable.
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 03-10-2026 18:35
+- **Prompt**: what would it take to add to school-ai.py a function that could be called to query the list of models provided by the server? do not change the code yet, just tell me
