@@ -1,0 +1,13 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "type": "command",
+        "osx": ".github/hooks/scripts/log-prompt-history.sh",
+        "linux": ".github/hooks/scripts/log-prompt-history.sh",
+        "windows": ".github/hooks/scripts/log-prompt-history.cmd",
+        "timeout": 10
+      }
+    ]
+  }
+}
