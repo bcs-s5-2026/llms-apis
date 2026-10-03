@@ -26,3 +26,8 @@
 - **Hook Version**: 1.02
 - **Date**: 03-10-2026 18:35
 - **Prompt**: what would it take to add to school-ai.py a function that could be called to query the list of models provided by the server? do not change the code yet, just tell me
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 03-10-2026 18:39
+- **Prompt**: implement the command-line argument option - and yes, when invoked, it should not continue with the prompt. Add a comment at the end of listing the models that the model name can be used to replace the value of either "model_name" in the python script, or in the SCHOOL_MODEL_NAME env variable in the .env file
