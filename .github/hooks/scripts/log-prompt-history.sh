@@ -30,6 +30,9 @@ LOCAL_TRANSCRIPT_COPY_DIR = Path("tmp") / "transcripts"
 # Toggle to control automatic git commits after logging prompts.
 ENABLE_AUTO_COMMIT = False
 
+# Double logging
+APPEND_ENTRY_TO_JOURNAL = False
+
 def get_repo_root(script_dir: Path) -> Path:
   try:
     output = subprocess.check_output(
@@ -177,10 +180,12 @@ def main() -> int:
     )
 
     append_entry(history_file, history_entry)
-    append_entry(journal_file, journal_entry)
+    if APPEND_ENTRY_TO_JOURNAL:
+      append_entry(journal_file, journal_entry)
+
     if ENABLE_AUTO_COMMIT:
       safe_git_commit(repo_root, [history_file, journal_file], timestamp_history)
-      
+
   except Exception:
     # Non-blocking hook by design.
     return 0

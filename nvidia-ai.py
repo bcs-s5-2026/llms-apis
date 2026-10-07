@@ -32,9 +32,10 @@ def main():
       print("  export NVIDIA_API_KEY='your_api_key_here'")
       sys.exit(1)
 
-# model_name = "qwen/qwen3-coder-480b-a35b-instruct",
-  model_name = "mistralai/mistral-large-3-675b-instruct-2512" 
-#  model_name = "minimaxai/minimax-m2.7"
+  # Picking one model among the available NVIDIA models. 
+  # Be aware that the service is not guaranteed to be available at all times.
+  # There are rate limits and the models get retired or updated periodically.
+  model_name = "nvidia/nemotron-3-super-120b-a12b"
 
   prompt = os.getenv("NVIDIA_PROMPT", "Imagine a dialog between a human and an AI - 5 interactions. Make the AI snarky. Interactions are 3 sentences maximum.")
   stream_mode = os.getenv("NVIDIA_STREAM", "true").lower() in {"1", "true", "yes", "y"}
@@ -49,28 +50,32 @@ def main():
   print("Sending request...", flush=True)
   print(f"Primary model: {model_name} | stream={stream_mode}", flush=True)
 
+
   completion = client.chat.completions.create(
     model=model_name,
     messages=[{"role": "user", "content": prompt}],
     temperature=1,
     top_p=0.95,
-    max_tokens=256,
-    # max_completion_tokens=4096,
-    stream=True,
+    max_tokens=2048, # be aware of the token limit: too short and you may not get anything
+    stream=stream_mode,
     timeout=60, # Set a longer timeout for the request to allow for slower responses
   )
 
-  got_any_token = False
-  for chunk in completion:
-    if not getattr(chunk, "choices", None):
-      continue
-    if chunk.choices and chunk.choices[0].delta.content is not None:
-      got_any_token = True
-      print(chunk.choices[0].delta.content, end="", flush=True)
+  if stream_mode:
+    got_any_token = False
+    for chunk in completion:
+      if not getattr(chunk, "choices", None):
+        continue
+      if chunk.choices and chunk.choices[0].delta.content is not None:
+        got_any_token = True
+        print(chunk.choices[0].delta.content, end="", flush=True)
 
     if not got_any_token:
       print("No tokens received.", flush=True)
-    
+  else:
+    print(completion.choices[0].message, flush=True)
+
+  # end of main()
   print("\nDone.", flush=True)
 
 if __name__ == "__main__":

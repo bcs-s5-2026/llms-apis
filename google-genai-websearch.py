@@ -34,14 +34,16 @@ STREAM_ON = False
 MODEL = "gemini-2.5-flash" # This one supports web search grounding
 
 # Prompt
-#PROMPT = "Imagine a dialog between a human and a snarky AI - 5 interactions. Interactions are 3 sentences maximum."
 PROMPT = "What is the weather in Paris right now?" # Testing grounding with web search
 
 # Configure the grounding tool
 # Using the 'google_search' tool type
 config = genai.types.GenerateContentConfig(
-    system_instruction="You are a medieval knight who speaks in Old English.",
-    tools=[genai.types.Tool(google_search=genai.types.GoogleSearch())]
+    system_instruction="You are a overzealous character with a penchant for dramatics, who speaks in Old fashion and quaint English.",
+    tools=[genai.types.Tool(google_search=genai.types.GoogleSearch())],
+    automatic_function_calling=genai.types.AutomaticFunctionCallingConfig(
+        disable=True
+    ),
 )
 
 def main():

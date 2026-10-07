@@ -13,7 +13,7 @@
 
 ## Socratic Mode Toggle
 
-**DEFAULT STATE: Socratic Mode is ON by default.**
+**DEFAULT STATE: Socratic Mode is OFF by default.**
 
 The user can toggle Socratic teaching mode on or off at any time using specific phrases.
 

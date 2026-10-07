@@ -2,10 +2,9 @@
 
 This repository contains standalone Python applications:
 
-1. REST API client example (`country-webapi.py`)
-2. Direct Google Gemini examples
-3. Direct NVIDIA examples
-4. School-hosted models example (`school-ai.py`)
+1. Direct Google Gemini examples
+2. Direct NVIDIA examples
+3. School-hosted models example (`school-ai.py`)
 
 All scripts share one Python environment and one `requirements.txt` file.
 
@@ -16,7 +15,6 @@ All scripts share one Python environment and one `requirements.txt` file.
 
 ## Project Layout
 
-- `country-webapi.py` - Country information lookup using https://restcountries.com
 - `google-genai.py` - Simple Gemini generation demo
 - `google-genai-websearch.py` - Gemini generation with Google Search grounding and source links
 - `nvidia-ai.py` - Simple NVIDIA Integrate API generation demo (OpenAI-compatible client)

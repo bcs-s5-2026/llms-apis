@@ -46,7 +46,9 @@ USE_SYSTEM_INSTRUCTION = False
 
 if USE_SYSTEM_INSTRUCTION:
   config = genai.types.GenerateContentConfig(
-      system_instruction="You are a medieval knight who speaks in Old English."
+      automatic_function_calling=genai.types.AutomaticFunctionCallingConfig(
+        disable=True
+      ),
   )
 
 def main():
