@@ -1,4 +1,4 @@
 python-dotenv
 requests
-openai>=1.0.0
+openai>=1.66.0
 google-genai

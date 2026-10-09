@@ -19,6 +19,7 @@ All scripts share one Python environment and one `requirements.txt` file.
 - `google-genai-websearch.py` - Gemini generation with Google Search grounding and source links
 - `nvidia-ai.py` - Simple NVIDIA Integrate API generation demo (OpenAI-compatible client)
 - `school-ai.py` - School-hosted model generation demo (OpenAI-compatible client), with notes on how to list the available models
+- `school-ai-response-api.py` - School-hosted Responses API demo (requires server support for `/v1/responses`)
 - `docs/` - Source texts for reference
 - `requirements.txt` - Shared dependencies
 - `.env.example` - Environment variable template
@@ -102,6 +103,19 @@ python school-ai.py
 This script sends a prompt to the school's hosted model server. The model is selected with `SCHOOL_MODEL_NAME` in `.env` (default: `gemma-4-31b-it`). By default the reply is streamed token by token; set `SCHOOL_STREAM` to `false` in `.env` to receive the full completion in a single response. Run `python school-ai.py --list-models` to print the model names offered by the server (from the OpenAI-compatible `/v1/models` endpoint) and stop, without sending the prompt - use one of the printed names as `SCHOOL_MODEL_NAME`.
 
 Your personal access authorisation key (`SCHOOL_HOSTED_MODEL_API_KEY`) and the server URL (`SCHOOL_HOSTED_MODEL_SERVER_URL`) are sent to you by email - copy them into your local `.env` before running.
+
+### School Hosted Models with the Responses API
+
+```bash
+python school-ai-response-api.py
+python school-ai-response-api.py --list-models
+```
+
+This example uses `client.responses.create()` from `openai>=1.66.0` with the same school configuration. It sends `input` instead of Chat Completions `messages`, uses `max_output_tokens`, prints streamed `response.output_text.delta` events, and reads `response.output_text` in non-streaming mode (`SCHOOL_STREAM=false`). Requests use `store=False` to avoid requesting server-side response storage.
+
+The request settings are collected in a typed `response_parameters` dictionary and passed to one `create(**response_parameters)` call. The script then branches on the returned type to consume a stream or a complete response.
+
+**School endpoint support was reported working in a manual test on 9 October 2026.** This does not establish support for every model or parameter combination. Supporting `/v1/chat/completions` alone does not imply support for `/v1/responses`. Model listing still uses `/v1/models` and does not verify Responses support. Run a generation request to check support for the selected model and parameters. HTTP 404, 405, or 501 triggers a compatibility hint and a nonzero exit; authentication, validation, and other API errors remain errors. Failed/incomplete responses and interrupted streams also exit with an error rather than reporting success. There is no automatic fallback: use `school-ai.py` if the school server only supports Chat Completions.
 
 ## Troubleshooting
 
